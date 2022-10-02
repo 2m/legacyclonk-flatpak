@@ -24,9 +24,9 @@ modules:
       - type: script
         dest-filename: legacyclonk.sh
         commands:
-          - export LD_LIBRARY_PATH=$XDG_STATE_HOME
-          - rsync -a -v --ignore-existing /app/legacyclonk $XDG_STATE_HOME
-          - exec $XDG_STATE_HOME/clonk
+          - export LD_LIBRARY_PATH=$XDG_DATA_HOME
+          - cp -r -n /app/legacyclonk/* $XDG_DATA_HOME/
+          - exec $XDG_DATA_HOME/clonk
   - name: legacyclonk
     buildsystem: simple
     build-commands:
