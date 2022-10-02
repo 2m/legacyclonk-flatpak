@@ -4,7 +4,12 @@ runtime-version: '21.08'
 sdk: org.freedesktop.Sdk
 command: /app/legacyclonk/legacyclonk.sh
 finish-args:
+  - --share=ipc
   - --socket=x11
+  - --socket=pulseaudio
+  - --share=network
+  - --device=dri
+  - --filesystem=/app/legacyclonk:rw
 modules:
   - name: clonk-rage
     buildsystem: simple
@@ -19,8 +24,18 @@ modules:
       - type: script
         dest-filename: legacyclonk.sh
         commands:
-          - export LD_LIBRARY_PATH=/app/legacyclonk
-          - /app/legacyclonk/clonk64
+          - export LD_LIBRARY_PATH=$XDG_STATE_HOME
+          - rsync -a -v --ignore-existing /app/legacyclonk $XDG_STATE_HOME
+          - exec $XDG_STATE_HOME/clonk
+  - name: legacyclonk
+    buildsystem: simple
+    build-commands:
+      - cp -r * /app/legacyclonk/
+      - chmod +x /app/legacyclonk/clonk
+    sources:
+      - type: archive
+        url: https://update.clonkspot.org/lc/lc_full_355_linux64.zip
+        sha256: d474feed4bbbd4a4dbbf4a1f83af6924b8d6691cb5d52601957b4dc9cedeaf5b
   - name: libgtk
     buildsystem: simple
     build-commands:
@@ -151,3 +166,23 @@ modules:
       - type: file
         url: http://de.archive.ubuntu.com/ubuntu/pool/main/n/ncurses/libtinfo5_6.1-1ubuntu1_amd64.deb
         sha256: 450bf945387029bee91d8eea76deacb8df907a1f6641fbce388933d1fdfb5a0d
+  - name: libnotify
+    buildsystem: simple
+    build-commands:
+      - ar x libnotify4_0.7.7-3_amd64.deb
+      - tar xf data.tar.xz
+      - cp -r usr/lib/x86_64-linux-gnu/* /app/legacyclonk/
+    sources:
+      - type: file
+        url: http://de.archive.ubuntu.com/ubuntu/pool/main/libn/libnotify/libnotify4_0.7.7-3_amd64.deb
+        sha256: 1b1f3e1dbcc6b7f7af7009de381cd875d81d05d701ec6f8ec0e8c487119a7afe
+  - name: libpcre
+    buildsystem: simple
+    build-commands:
+      - ar x libpcre3_8.39-9ubuntu0.1_amd64.deb
+      - tar xf data.tar.xz
+      - cp -r lib/x86_64-linux-gnu/* /app/legacyclonk/
+    sources:
+      - type: file
+        url: http://security.ubuntu.com/ubuntu/pool/main/p/pcre3/libpcre3_8.39-9ubuntu0.1_amd64.deb
+        sha256: a913c6a5943ad5608e675ccfee38029c123a689a983292d10172d6bda20e474f
