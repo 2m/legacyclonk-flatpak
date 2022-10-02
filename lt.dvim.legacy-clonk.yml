@@ -20,8 +20,6 @@ modules:
         dest-filename: legacyclonk.sh
         commands:
           - export LD_LIBRARY_PATH=/app/legacyclonk
-          - export GTK_PATH=/app/legacyclonk
-          - echo $GTK_PATH
           - /app/legacyclonk/clonk64
   - name: libgtk
     buildsystem: simple
@@ -33,17 +31,6 @@ modules:
       - type: file
         url: http://de.archive.ubuntu.com/ubuntu/pool/main/g/gtk+2.0/libgtk2.0-0_2.24.32-1ubuntu1_amd64.deb
         sha256: 1c0db2dfaffb9f2380d7701f7f09e5748ee08f6d655e7a681ae0084d7daf83a4
-  - name: libcanberra
-    buildsystem: simple
-    build-commands:
-      - ar x libcanberra-gtk-module_0.30-5ubuntu1_amd64.deb
-      - tar xf data.tar.xz
-      - cp -r usr/lib/x86_64-linux-gnu/gtk-2.0/modules/* /app/legacyclonk/
-      - cp /app/legacyclonk/libcanberra-gtk-module.so /app/legacyclonk/canberra-gtk-module.so
-    sources:
-      - type: file
-        url: http://de.archive.ubuntu.com/ubuntu/pool/universe/libc/libcanberra/libcanberra-gtk-module_0.30-5ubuntu1_amd64.deb
-        sha256: fffed24070fbbb38d390952e2652da29f11629962d9aa362e61c1d95c49a3ba4
   - name: libsdl-mixer
     buildsystem: simple
     build-commands:
