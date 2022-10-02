@@ -1,0 +1,166 @@
+app-id: lt.dvim.legacy-clonk
+runtime: org.freedesktop.Platform
+runtime-version: '21.08'
+sdk: org.freedesktop.Sdk
+command: /app/legacyclonk/legacyclonk.sh
+finish-args:
+  - --socket=x11
+modules:
+  - name: clonk-rage
+    buildsystem: simple
+    build-commands:
+      - mkdir -p /app/legacyclonk
+      - cp -r * /app/legacyclonk/
+      - chmod +x /app/legacyclonk/clonk64
+    sources:
+      - type: archive
+        url: http://www.clonkx.de/rage/cr_full_linux.tar.bz2
+        sha256: 520c6a94ed12614b0b0857dc6a449f64b8c6596163b8797a4b970fc61d40404e
+      - type: script
+        dest-filename: legacyclonk.sh
+        commands:
+          - export LD_LIBRARY_PATH=/app/legacyclonk
+          - export GTK_PATH=/app/legacyclonk
+          - echo $GTK_PATH
+          - /app/legacyclonk/clonk64
+  - name: libgtk
+    buildsystem: simple
+    build-commands:
+      - ar x libgtk2.0-0_2.24.32-1ubuntu1_amd64.deb
+      - tar xf data.tar.xz
+      - cp -r usr/lib/x86_64-linux-gnu/* /app/legacyclonk/
+    sources:
+      - type: file
+        url: http://de.archive.ubuntu.com/ubuntu/pool/main/g/gtk+2.0/libgtk2.0-0_2.24.32-1ubuntu1_amd64.deb
+        sha256: 1c0db2dfaffb9f2380d7701f7f09e5748ee08f6d655e7a681ae0084d7daf83a4
+  - name: libcanberra
+    buildsystem: simple
+    build-commands:
+      - ar x libcanberra-gtk-module_0.30-5ubuntu1_amd64.deb
+      - tar xf data.tar.xz
+      - cp -r usr/lib/x86_64-linux-gnu/gtk-2.0/modules/* /app/legacyclonk/
+      - cp /app/legacyclonk/libcanberra-gtk-module.so /app/legacyclonk/canberra-gtk-module.so
+    sources:
+      - type: file
+        url: http://de.archive.ubuntu.com/ubuntu/pool/universe/libc/libcanberra/libcanberra-gtk-module_0.30-5ubuntu1_amd64.deb
+        sha256: fffed24070fbbb38d390952e2652da29f11629962d9aa362e61c1d95c49a3ba4
+  - name: libsdl-mixer
+    buildsystem: simple
+    build-commands:
+      - ar x libsdl-mixer1.2_1.2.12-14_amd64.deb
+      - tar xf data.tar.xz
+      - cp -r usr/lib/x86_64-linux-gnu/* /app/legacyclonk/
+    sources:
+      - type: file
+        url: http://de.archive.ubuntu.com/ubuntu/pool/universe/s/sdl-mixer1.2/libsdl-mixer1.2_1.2.12-14_amd64.deb
+        sha256: 35aa62021415d096a780e92e659b7c007f5ab488078dec6a821cb98f88219322
+  - name: libsdl
+    buildsystem: simple
+    build-commands:
+      - ar x libsdl1.2debian_1.2.15+dfsg2-0.1ubuntu0.2_amd64.deb
+      - tar xf data.tar.xz
+      - cp -r usr/lib/x86_64-linux-gnu/* /app/legacyclonk/
+    sources:
+      - type: file
+        url: http://security.ubuntu.com/ubuntu/pool/main/libs/libsdl1.2/libsdl1.2debian_1.2.15+dfsg2-0.1ubuntu0.2_amd64.deb
+        sha256: 66c3e7ea8b64832ec6229b65157084b4270f3a4cf0a33add881d60709fd3c29c
+  - name: libglu
+    buildsystem: simple
+    build-commands:
+      - ar x libglu1-mesa_9.0.0-2.1build1_amd64.deb
+      - tar xf data.tar.xz
+      - cp -r usr/lib/x86_64-linux-gnu/* /app/legacyclonk/
+    sources:
+      - type: file
+        url: http://de.archive.ubuntu.com/ubuntu/pool/main/libg/libglu/libglu1-mesa_9.0.0-2.1build1_amd64.deb
+        sha256: 5f8a3be06dc3a9a82a69d42cc4fd3d0f436d7ec68676ad1c0903382a455feb83
+  - name: libpng
+    buildsystem: simple
+    build-commands:
+      - ar x libpng12-0_1.2.54-1ubuntu1.1_amd64.deb
+      - tar xf data.tar.xz
+      - cp -r lib/x86_64-linux-gnu/* /app/legacyclonk/
+    sources:
+      - type: file
+        url: http://security.ubuntu.com/ubuntu/pool/main/libp/libpng/libpng12-0_1.2.54-1ubuntu1.1_amd64.deb
+        sha256: 9d938a376dafd1668827ceeb742f18b164c390e53774b06eaaf644713b6ffb25
+  - name: libmikmod
+    buildsystem: simple
+    build-commands:
+      - ar x libmikmod3_3.3.11.1-6_amd64.deb
+      - tar xf data.tar.xz
+      - cp -r usr/lib/x86_64-linux-gnu/* /app/legacyclonk/
+    sources:
+      - type: file
+        url: http://de.archive.ubuntu.com/ubuntu/pool/universe/libm/libmikmod/libmikmod3_3.3.11.1-6_amd64.deb
+        sha256: 0ca06087aa28d4a49d64fd7f727bd0778736fbe24036012e79be6fa6641a5790
+  - name: libfluidsynth
+    buildsystem: simple
+    build-commands:
+      - ar x libfluidsynth1_1.1.9-1_amd64.deb
+      - tar xf data.tar.xz
+      - cp -r usr/lib/x86_64-linux-gnu/* /app/legacyclonk/
+    sources:
+      - type: file
+        url: http://de.archive.ubuntu.com/ubuntu/pool/universe/f/fluidsynth/libfluidsynth1_1.1.9-1_amd64.deb
+        sha256: cd1e586081f0379f47de9823ac07a954bf06f7ab00519324fc58a371519e049b
+  - name: libmad
+    buildsystem: simple
+    build-commands:
+      - ar x libmad0_0.15.1b-9ubuntu18.04.1_amd64.deb
+      - tar xf data.tar.xz
+      - cp -r usr/lib/x86_64-linux-gnu/* /app/legacyclonk/
+    sources:
+      - type: file
+        url: http://security.ubuntu.com/ubuntu/pool/universe/libm/libmad/libmad0_0.15.1b-9ubuntu18.04.1_amd64.deb
+        sha256: a6919bf70282e93a20e79c1ec566dbb2b3196102ce9300a76d2286b0b88b2d9f
+  - name: libcaca
+    buildsystem: simple
+    build-commands:
+      - ar x libcaca0_0.99.beta19-2ubuntu0.18.04.3_amd64.deb
+      - tar xf data.tar.xz
+      - cp -r usr/lib/x86_64-linux-gnu/* /app/legacyclonk/
+    sources:
+      - type: file
+        url: http://security.ubuntu.com/ubuntu/pool/main/libc/libcaca/libcaca0_0.99.beta19-2ubuntu0.18.04.3_amd64.deb
+        sha256: 0687449f7290a545b2cb586d303216319720cf2a82842b16e5b0f44331b0c7d2
+  - name: libreadline
+    buildsystem: simple
+    build-commands:
+      - ar x libreadline7_7.0-3_amd64.deb
+      - tar xf data.tar.xz
+      - cp -r lib/x86_64-linux-gnu/* /app/legacyclonk/
+    sources:
+      - type: file
+        url: http://de.archive.ubuntu.com/ubuntu/pool/main/r/readline/libreadline7_7.0-3_amd64.deb
+        sha256: 8706403267e95615f1b70db31ff16709361982728b308466346e01c20a743dd5
+  - name: libslang
+    buildsystem: simple
+    build-commands:
+      - ar x libslang2_2.3.1a-3ubuntu1_amd64.deb
+      - tar xf data.tar.xz
+      - cp -r lib/x86_64-linux-gnu/* /app/legacyclonk/
+    sources:
+      - type: file
+        url: http://de.archive.ubuntu.com/ubuntu/pool/main/s/slang2/libslang2_2.3.1a-3ubuntu1_amd64.deb
+        sha256: f0c143c0a008dbe3a4a80f2beccf677caf481c407894be6a21967103b0aedafb
+  - name: libncursesw
+    buildsystem: simple
+    build-commands:
+      - ar x libncursesw5_6.1-1ubuntu1_amd64.deb
+      - tar xf data.tar.xz
+      - cp -r lib/x86_64-linux-gnu/* /app/legacyclonk/
+    sources:
+      - type: file
+        url: http://de.archive.ubuntu.com/ubuntu/pool/main/n/ncurses/libncursesw5_6.1-1ubuntu1_amd64.deb
+        sha256: 42eab84ee1a355a8a7cc1b53785040affafd766fe56c5f7101ee4e8393a88c6a
+  - name: libtinfo
+    buildsystem: simple
+    build-commands:
+      - ar x libtinfo5_6.1-1ubuntu1_amd64.deb
+      - tar xf data.tar.xz
+      - cp -r lib/x86_64-linux-gnu/* /app/legacyclonk/
+    sources:
+      - type: file
+        url: http://de.archive.ubuntu.com/ubuntu/pool/main/n/ncurses/libtinfo5_6.1-1ubuntu1_amd64.deb
+        sha256: 450bf945387029bee91d8eea76deacb8df907a1f6641fbce388933d1fdfb5a0d
