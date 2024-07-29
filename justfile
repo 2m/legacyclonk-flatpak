@@ -1,8 +1,9 @@
-build:
-  flatpak-builder build-dir --force-clean lt.dvim.legacy-clonk.yml
+setup:
+  yay flatpak flatpak-builder
+  flatpak remote-add --if-not-exists --user flathub https://dl.flathub.org/repo/flathub.flatpakrepo
 
-install:
-  flatpak-builder --user --install --force-clean build-dir lt.dvim.legacy-clonk.yml
+build-install:
+  flatpak-builder --force-clean --user --install-deps-from=flathub --repo=repo --install builddir lt.dvim.legacy-clonk.yml
 
 run:
   flatpak run lt.dvim.legacy-clonk

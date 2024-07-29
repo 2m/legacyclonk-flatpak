@@ -1,6 +1,6 @@
 app-id: lt.dvim.legacy-clonk
 runtime: org.freedesktop.Platform
-runtime-version: '21.08'
+runtime-version: '23.08'
 sdk: org.freedesktop.Sdk
 command: /app/legacyclonk/legacyclonk.sh
 finish-args:
@@ -24,18 +24,22 @@ modules:
       - type: script
         dest-filename: legacyclonk.sh
         commands:
+          # copy all gamefiles to XDG_DATA_HOME as legacy clonk expects
+          # the directory, where the executable is, to be writable
           - export LD_LIBRARY_PATH=$XDG_DATA_HOME
-          - cp -r -n /app/legacyclonk/* $XDG_DATA_HOME/
+          - cp -r -n /app/legacyclonk/* $XDG_DATA_HOME/ 2> /dev/null # do not warn if files are already there
           - exec $XDG_DATA_HOME/clonk
   - name: legacyclonk
     buildsystem: simple
     build-commands:
+      - mkdir -p /app/legacyclonk
       - cp -r * /app/legacyclonk/
       - chmod +x /app/legacyclonk/clonk
     sources:
       - type: archive
-        url: https://update.clonkspot.org/lc/lc_full_355_linux64.zip
-        sha256: d474feed4bbbd4a4dbbf4a1f83af6924b8d6691cb5d52601957b4dc9cedeaf5b
+        url: https://github.com/legacyclonk/LegacyClonk/releases/download/v360_multiple_sections_open_beta/LegacyClonk-Linux-x64.tar.gz
+        sha256: e9d346f09dea022eac0f041284c201b70407095bd77ee6dd55847c8933f3bd55
+        strip-components: 0
   - name: libgtk
     buildsystem: simple
     build-commands:
