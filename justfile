@@ -13,3 +13,6 @@ repo:
 
 bundle:
   flatpak build-bundle repo legacyclonk.flatpak lt.dvim.legacy-clonk
+
+lint:
+  docker run --rm -it -v $(pwd):/flatpak ghcr.io/flathub/flatpak-builder-lint:latest manifest /flatpak/lt.dvim.legacy-clonk.yml

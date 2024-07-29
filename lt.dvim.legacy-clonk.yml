@@ -2,14 +2,13 @@ app-id: lt.dvim.legacy-clonk
 runtime: org.freedesktop.Platform
 runtime-version: '23.08'
 sdk: org.freedesktop.Sdk
-command: /app/legacyclonk/legacyclonk.sh
+command: legacyclonk.sh
 finish-args:
   - --share=ipc
   - --socket=x11
   - --socket=pulseaudio
   - --share=network
   - --device=dri
-  - --filesystem=/app/legacyclonk:rw
 modules:
   - name: clonk-rage
     buildsystem: simple
@@ -17,6 +16,7 @@ modules:
       - mkdir -p /app/legacyclonk
       - cp -r * /app/legacyclonk/
       - chmod +x /app/legacyclonk/clonk64
+      - install -Dm755 legacyclonk.sh /app/bin/legacyclonk.sh
     sources:
       - type: archive
         url: http://www.clonkx.de/rage/cr_full_linux.tar.bz2
