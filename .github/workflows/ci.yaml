@@ -3,7 +3,7 @@ name: ci
 on:
   push:
     branches:
-    - main
+      - main
   pull_request:
 
 jobs:
@@ -12,8 +12,8 @@ jobs:
     strategy:
       fail-fast: false
     steps:
-    - uses: actions/checkout@v4
-    - uses: extractions/setup-just@v2
+      - uses: actions/checkout@v4
+      - uses: extractions/setup-just@v2
 
-    - name: yaml-lint
-      uses: ibiqlik/action-yamllint@v3
+      - name: yaml-lint
+        uses: ibiqlik/action-yamllint@v3
