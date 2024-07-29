@@ -1,0 +1,19 @@
+name: ci
+
+on:
+  push:
+    branches:
+    - main
+  pull_request:
+
+jobs:
+  checks:
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+    steps:
+    - uses: actions/checkout@v4
+    - uses: extractions/setup-just@v2
+
+    - name: yaml-lint
+      uses: ibiqlik/action-yamllint@v3
